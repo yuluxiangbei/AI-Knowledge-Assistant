@@ -8,6 +8,7 @@ class Settings(BaseSettings):
   model_config = SettingsConfigDict(env_file=".env",env_file_encoding="utf-8")
   APP_NAME : str = "AI-Knowledge-Assistant"
   SECRET_KEY : str= "change-me"
+  ALGORITHM : str = "HS256"
   DATABASE_URL : str = "mysql+asyncmy://app:app123456@127.0.0.1:3306/ai_knowledge?charset=utf8mb4"
   DEBUG : bool = False
   ACCESS_TOKEN_EXPIRE_MINUTES: int = 1440
