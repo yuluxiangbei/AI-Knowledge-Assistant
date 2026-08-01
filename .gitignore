@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# 环境与密钥（真实密钥严禁入库）
+.env
+
+# 数据库文件
+*.db
+*.sqlite3
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# 测试与覆盖率
+.pytest_cache/
+.coverage
+htmlcov/
+
+# 系统
+.DS_Store
+Thumbs.db
