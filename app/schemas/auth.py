@@ -1,10 +1,10 @@
 from pydantic import BaseModel,Field,ConfigDict
 
-class RegisterRequest(BaseModel):
+class RegisterRequest(BaseModel): #注册请求
   username : str = Field(min_length=3,max_length=64)
   password : str = Field(min_length=6)
 
-class LoginRequest(BaseModel):
+class LoginRequest(BaseModel): #登录请求
   username : str
   password : str
 

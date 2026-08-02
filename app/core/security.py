@@ -4,6 +4,8 @@ import bcrypt                                        # 第三方
 import jwt
 
 from app.core.config import get_settings             # 本地
+
+
 def hash_password(plain : str) -> str:
   passwd = bcrypt.hashpw(plain.encode("utf-8"),bcrypt.gensalt())
   return passwd.decode()
