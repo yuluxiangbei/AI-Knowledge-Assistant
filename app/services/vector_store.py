@@ -24,6 +24,10 @@ def ensure_collection(client:QdrantClient):
 def embedder():
   return SentenceTransformer(get_settings().EMBEDDING_MODEL)
 
+@lru_cache
+def get_qdrant_client() -> QdrantClient:
+  return QdrantClient(url=get_settings().QDRANT_URL)
+  
 
 def upsert_chunks(client:QdrantClient,user_id: int,document_id: int,filename: str,chunks: list[str]):
   vectors = embedder().encode(chunks)

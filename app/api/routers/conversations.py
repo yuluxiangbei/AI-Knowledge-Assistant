@@ -1,9 +1,13 @@
 from fastapi import APIRouter,HTTPException,status
 from sqlalchemy import select
+import asyncio
 
 from app.api.deps import CurrentUser,DbDep
 from app.models import Conversation,Message
 from app.schemas.conversation import ConversationCreate,ConversationOut,MessageCreate,MessageOut
+from app.services.rag import generate_answer
+from app.core.config import get_settings
+from app.services.vector_store import get_qdrant_client
 
 router = APIRouter(prefix="/conversations",tags=["conversations"])
 
@@ -46,11 +50,27 @@ async def delete_conversation(conversation_id: int,db: DbDep, user: CurrentUser)
 @router.post("/{conversation_id}/messages",response_model=MessageOut,status_code=status.HTTP_201_CREATED)
 async def add_message(conversation_id: int,db: DbDep, user: CurrentUser,payload: MessageCreate):
   await _get_owned_conversation(db,conversation_id,user)
+  client = get_qdrant_client()
+  # 查历史
+  history = await db.scalars(select(Message).where(Message.conversation_id== conversation_id).order_by(Message.id.desc()).limit(10))
+  #存用户信息
   message = Message(conversation_id = conversation_id,role="user",content = payload.content)
   db.add(message)
   await db.commit()
   await db.refresh(message)
-  return message
+  #调回答
+  msgs:list[Message] = list(history.all())
+  msgs.reverse()
+  history_text:str = "\n".join(f"{m.role}: {m.content}" for m in msgs)
+  answer = await asyncio.to_thread(generate_answer,client=client,user_id=user.id,question=payload.content,top_k=get_settings().TOP_K,history=history_text)
+
+  #存assistant信息
+  assistant_msg = Message(conversation_id=conversation_id,role="assistant",content = answer["answer"],sources=answer["sources"])
+  db.add(assistant_msg)
+  await db.commit()
+  await db.refresh(assistant_msg)
+
+  return assistant_msg
 
 
 #看消息

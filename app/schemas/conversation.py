@@ -1,5 +1,6 @@
 from datetime import datetime
 
+
 from pydantic import BaseModel,Field,ConfigDict
 
 class ConversationCreate(BaseModel):
@@ -21,5 +22,6 @@ class MessageOut(BaseModel):
   role: str
   content: str
   created_at: datetime
+  sources: list | None = None
 
 
