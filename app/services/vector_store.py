@@ -50,20 +50,3 @@ def delete_document_vectors(client:QdrantClient,user_id:int,document_id:int,):
                   models.FieldCondition(key="document_id",match = models.MatchValue(value=document_id)),
                 ])))
 
-
-if __name__ == "__main__":
-  client = QdrantClient(url=get_settings().QDRANT_URL)
-  chunks = ["FastAPI 基于 asyncio 实现异步", "async def 定义的协程需要 await 调用", "SQLAlchemy 异步会话要搭配 async with 使用"]
-  ensure_collection(client)
-  upsert_chunks(client, user_id=1, document_id=1, filename="test.txt", chunks=chunks)
-  count = client.get_collection(get_settings().QDRANT_COLLECTION).points_count
-  print("第一次插入后:", count)
-
-  upsert_chunks(client, user_id=1, document_id=1, filename="test.txt", chunks=chunks)
-  count = client.get_collection(get_settings().QDRANT_COLLECTION).points_count
-  print("第二次插入后:", count)
-
-  queryvector = embedder().encode("FastAPI 基于 什么 实现异步")
-  print("user1 搜索:", search_chunks(client, user_id=1, query_vector=queryvector.tolist(), top_k=2))
-  print("user2 搜索:", search_chunks(client, user_id=2, query_vector=queryvector.tolist(), top_k=2))   # ← 隔离测试,别漏!
-  print("结束")
