@@ -1,0 +1,11 @@
+[server]
+# 固定 cookie 密钥:会话签名稳定,重启 streamlit 后旧会话仍有效
+cookieSecret = "ai-knowledge-dev-secret-2026-change-me"
+
+# 禁止统计上报(本地开发)
+headless = false
+
+[browser]
+# 固定访问地址为 localhost,避免 IP/localhost 混用导致 cookie 域错乱
+serverAddress = "localhost"
+gatherUsageStats = false
