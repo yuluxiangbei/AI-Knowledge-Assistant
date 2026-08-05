@@ -10,7 +10,7 @@
   const message = ref('')          // 提示信息(成功/错误)
 
   // ---- 登录状态 ----
-  // token 从 localStorage 初始化:刷新页面不丢登录状态(Streamlit 的教训)
+  // token 存 localStorage:刷新页面不丢登录状态(选 Vue 的关键原因)
   const token = ref(localStorage.getItem('token') || "")
 
   // ---- 上传相关 ----

@@ -129,7 +129,6 @@ app/
     └── rag.py            # RAG 组装(检索→拼prompt→DeepSeek→引用)
 
 frontend-vue/             # Vue 3 前端(Vite,主界面 src/components/AI-Knowledge.vue)
-frontend/                 # Streamlit 对照版(已弃用,保留作对比)
 ```
 
 ## 🔐 安全设计
@@ -139,7 +138,7 @@ frontend/                 # Streamlit 对照版(已弃用,保留作对比)
 - 资源归属校验:访问他人资源统一 404(不暴露存在性)
 - 上传防护:文件名净化(防路径穿越)+ UUID 重命名 + 按用户分目录
 - 多租户隔离:向量检索强制 `user_id` payload filter
-- CORS 白名单:仅放行配置的前端地址(5173 / 8501)
+- CORS 白名单:仅放行配置的前端地址(5173)
 
 ## 📚 学习历程
 
