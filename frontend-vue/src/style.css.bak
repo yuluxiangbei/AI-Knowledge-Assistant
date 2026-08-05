@@ -1,0 +1,248 @@
+/* ============================================
+   AI 智能知识助手 - 统一全局样式
+   覆盖:登录/注册 + 会话列表 + 聊天 + 上传 + 引用
+   ============================================ */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---- 主题变量 ---- */
+:root {
+  --text: #3c3a43;
+  --text-h: #1a1723;
+  --muted: #8a8498;
+  --bg: #f5f6fa;
+  --card-bg: #ffffff;
+  --border: #e4e6ef;
+  --accent: #4f6ef7;
+  --accent-hover: #3d5af0;
+  --accent-bg: rgba(79, 110, 247, 0.08);
+  --danger: #e5484d;
+  --success: #30a46c;
+  --shadow: 0 8px 24px rgba(26, 22, 37, 0.08);
+  --radius: 12px;
+  --sans: system-ui, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #b0aabc;
+    --text-h: #f0eef5;
+    --muted: #7d7689;
+    --bg: #14151a;
+    --card-bg: #1d1e26;
+    --border: #2c2e3a;
+    --accent: #7c8cf8;
+    --accent-hover: #93a1fa;
+    --accent-bg: rgba(124, 140, 248, 0.12);
+    --shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  }
+}
+
+body {
+  font: 15px/1.6 var(--sans);
+  color: var(--text);
+  background: var(--bg);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+/* ================= 主容器 ================= */
+#center {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+#center > h1 {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-h);
+  text-align: center;
+}
+
+/* ================= 卡片(登录/已登录通用) ================= */
+#center > div {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#center > div > h2 {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+/* ================= 按钮 ================= */
+button {
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--sans);
+  color: #fff;
+  background: var(--accent);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+button:hover {
+  background: var(--accent-hover);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* 次要按钮(模式切换/新建会话) */
+#center > div > button:first-of-type {
+  color: var(--accent);
+  background: var(--accent-bg);
+}
+
+#center > div > button:first-of-type:hover {
+  background: rgba(79, 110, 247, 0.16);
+}
+
+/* 危险按钮(退出) */
+#center > div > button:last-of-type:not(:nth-last-child(-n+1 of .primary)) {
+  color: var(--danger);
+  background: rgba(229, 72, 77, 0.08);
+}
+
+/* ================= 输入框 ================= */
+input[type='text'],
+input[type='password'] {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: var(--sans);
+  color: var(--text-h);
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type='text']:focus,
+input[type='password']:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+
+input[type='file'] {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+input[type='file']::file-selector-button {
+  padding: 6px 12px;
+  font-size: 13px;
+  font-family: var(--sans);
+  color: var(--text-h);
+  background: var(--accent-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+/* 聊天输入框 */
+#center input[type='text'][placeholder*='问题'],
+#center input[placeholder*='问题'] {
+  font-size: 14.5px;
+  padding: 12px 14px;
+}
+
+/* ================= 列表 ================= */
+ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+li {
+  padding: 10px 12px;
+  font-size: 14px;
+  color: var(--text-h);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+/* 会话列表项(可点击) */
+li:has(strong) {
+  cursor: default;
+}
+
+/* 消息列表 */
+li strong {
+  color: var(--accent);
+  margin-right: 6px;
+}
+
+/* 引用来源 */
+li div {
+  margin-top: 6px;
+  font-size: 12.5px;
+  color: var(--muted);
+  border-top: 1px dashed var(--border);
+  padding-top: 6px;
+}
+
+li div span {
+  display: inline-block;
+  margin-right: 8px;
+  padding: 2px 8px;
+  background: var(--accent-bg);
+  color: var(--accent);
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+/* 提示信息 */
+#center p {
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+  min-height: 18px;
+}
+
+/* ================= 滚动条 ================= */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+/* ================= 响应式 ================= */
+@media (max-width: 640px) {
+  #center {
+    padding: 24px 16px;
+  }
+  #center > div {
+    padding: 18px 14px;
+  }
+}
